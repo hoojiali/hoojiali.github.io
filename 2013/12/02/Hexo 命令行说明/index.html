@@ -5,14 +5,19 @@
   
 
   
-  <title>hoojiali&#39;s blog</title>
+  <title>Hexo 命令行说明 | hoojiali&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="hoojiali&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="Hexo命令说明">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo 命令行说明">
+<meta property="og:url" content="http://yoursite.com/2013/12/02/Hexo%20%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%AF%B4%E6%98%8E/index.html">
 <meta property="og:site_name" content="hoojiali&#39;s blog">
+<meta property="og:description" content="Hexo命令说明">
 <meta property="og:locale">
+<meta property="article:published_time" content="2013-12-02T07:30:16.000Z">
+<meta property="article:modified_time" content="2020-08-03T05:22:21.547Z">
 <meta property="article:author" content="hoojiali">
+<meta property="article:tag" content="命令行">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="hoojiali&#39;s blog" type="application/atom+xml">
@@ -62,47 +67,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-ios-事件响应链" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/08/03/ios-%E4%BA%8B%E4%BB%B6%E5%93%8D%E5%BA%94%E9%93%BE/" class="article-date">
-  <time datetime="2020-08-03T05:19:34.000Z" itemprop="datePublished">2020-08-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/03/ios-%E4%BA%8B%E4%BB%B6%E5%93%8D%E5%BA%94%E9%93%BE/">ios 事件响应链</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>iOS事件链有两条：事件的响应链；Hit-Testing事件的传递链</p>
-<p>响应链：由离用户最近的view向系统传递。initial view –&gt; super view –&gt; ….. –&gt; view controller –&gt; window –&gt; Application –&gt; AppDelegate<br>传递链：由系统向离用户最近的view传递。UIKit –&gt; active app’s event queue –&gt; window –&gt; root view –&gt; …… –&gt; lowest view<br>在iOS中只有继承UIResponder的对象才能够接收并处理事件，UIResponder是所有响应对象的基类，在UIResponder类中定义了处理上述各种事件的接口。我们熟悉的UIApplication、UIViewController、UIWindow和所有继承自UIView的UIKit类都直接或间接的继承自UIResponder，所以它们的实例都是可以构成响应者链的响应者对象，首先我们通过一张图来简单了解一下事件的传递以及响应</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/03/ios-%E4%BA%8B%E4%BB%B6%E5%93%8D%E5%BA%94%E9%93%BE/" data-id="ckde2i5ab0000vyd12udp0m1b" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Hexo 命令行说明" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Hexo 命令行说明" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2013/12/02/Hexo%20%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%AF%B4%E6%98%8E/" class="article-date">
   <time datetime="2013-12-02T07:30:16.000Z" itemprop="datePublished">2013-12-02</time>
@@ -119,8 +84,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/12/02/Hexo%20%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%AF%B4%E6%98%8E/">Hexo 命令行说明</a>
+    <h1 class="article-title" itemprop="name">
+      Hexo 命令行说明
     </h1>
   
 
@@ -145,11 +110,23 @@
     </footer>
   </div>
   
-</article>
-
+    
+<nav id="article-nav">
+  
+    <a href="/2020/08/03/ios-%E4%BA%8B%E4%BB%B6%E5%93%8D%E5%BA%94%E9%93%BE/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          ios 事件响应链
+        
+      </div>
+    </a>
+  
+  
+</nav>
 
   
-
+</article>
 
 </section>
         
