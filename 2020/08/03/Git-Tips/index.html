@@ -12,7 +12,7 @@
 
 
 
-<title>Hexo 命令行说明 | hoojiali&#39;s blog</title>
+<title>Git Tips | hoojiali&#39;s blog</title>
 
 
 
@@ -173,7 +173,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">Hexo 命令行说明</h1>
+            <h1 class="post-title">Git Tips</h1>
             
                 <div class="post-meta">
                     
@@ -182,27 +182,46 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">十二月 2, 2013&nbsp;&nbsp;15:30:16</a>
+                        Date: <a href="#">八月 3, 2020&nbsp;&nbsp;16:25:51</a>
                         </span>
                     
-                    
-                        <span class="post-category">
-                    Category:
-                            
-                                <a href="/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">环境配置</a>
-                            
-                        </span>
                     
                 </div>
             
         </header>
 
         <div class="post-content">
-            <h1 id="常用hexo命令"><a href="#常用hexo命令" class="headerlink" title="常用hexo命令"></a>常用hexo命令</h1><h2 id="常见命令"><a href="#常见命令" class="headerlink" title="常见命令"></a>常见命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;postName&quot; #新建文章</span><br><span class="line">hexo new page &quot;pageName&quot; #新建页面</span><br><span class="line">hexo generate #生成静态页面至public目录</span><br><span class="line">hexo server #开启预览访问端口（默认端口4000，&#39;ctrl + c&#39;关闭server）</span><br><span class="line">hexo deploy #部署到GitHub</span><br><span class="line">hexo help  # 查看帮助</span><br><span class="line">hexo version  #查看Hexo的版本</span><br></pre></td></tr></table></figure>
-
-<h2 id="组合命令"><a href="#组合命令" class="headerlink" title="组合命令"></a>组合命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo s -g #生成并本地预览</span><br><span class="line">hexo d -g #生成并上传</span><br></pre></td></tr></table></figure>
-
-<h2 id="写博文"><a href="#写博文" class="headerlink" title="写博文"></a>写博文</h2><p><code>hexo new &#39;my-first-blog&#39;</code></p>
+            <h2 id="远程先开好分支然后拉到本地"><a href="#远程先开好分支然后拉到本地" class="headerlink" title="远程先开好分支然后拉到本地"></a>远程先开好分支然后拉到本地</h2><p><strong>检出远程的feature-branch分支到本地</strong><br><code>git checkout -b feature-branch origin/feature-branch</code></p>
+<h2 id="本地先开好分支然后推送到远程"><a href="#本地先开好分支然后推送到远程" class="headerlink" title="本地先开好分支然后推送到远程"></a>本地先开好分支然后推送到远程</h2><p><strong>创建并切换到分支feature-branch</strong><br><code>git checkout -b feature-branch</code><br><strong>推送本地的feature-branch(冒号前面的)分支到远程origin的feature-branch(冒号后面的)分支(没有会自动创建)</strong><br><code>git push origin feature-branch:feature-branch</code></p>
+<h2 id="建立联系"><a href="#建立联系" class="headerlink" title="建立联系"></a>建立联系</h2><p><code>git pull</code>报错:<code>There is no tracking information for the current branch</code><br>原因: 本地分支和远程分支没有建立联系<br>解决:</p>
+<ul>
+<li>查看本地分支和远程分支的关联关系<br><code>git branch -vv</code></li>
+<li>建立联系<br><code>git branch --set-upstream-to=origin/远程分支名 本地分支名</code></li>
+</ul>
+<p><code>eg</code>:本地dev分支和远程dev分支建立联系<br><code>git branch --set-upstream-to=origin/dev dev</code></p>
+<h2 id="分支处理"><a href="#分支处理" class="headerlink" title="分支处理"></a>分支处理</h2><ul>
+<li><p>查看远程仓库  </p>
+</li>
+<li><p>*git remote -v**</p>
+</li>
+<li><p>将origin仓库的master分支下载到本地并新建一个temp分支  </p>
+</li>
+<li><p>*<code>git fetch origin master:temp</code>**</p>
+</li>
+<li><p>查看temp分支与本地原有分支的不同  </p>
+</li>
+<li><p>*git diff temp**</p>
+</li>
+<li><p>将temp分支和本地分支合并  </p>
+</li>
+<li><p>*git merge temp**</p>
+</li>
+<li><p>删除temp分支  </p>
+</li>
+<li><p>*git branch -d temp**</p>
+</li>
+</ul>
+<p><code>git merge --no-ff -m &quot;merge with no-ff&quot; dev</code></p>
 
         </div>
 
@@ -230,10 +249,6 @@
                 <span>Tag(s):</span>
                 <span class="tag">
                     
-                    
-                        <a href="/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C/"># 命令行</a>
-                    
-                        
                 </span>
             </div>
             <div>
@@ -244,8 +259,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/08/03/ios-%E4%BA%8B%E4%BB%B6%E5%93%8D%E5%BA%94%E9%93%BE/">ios 事件响应链</a>
+                <a class="prev" rel="prev" href="/2020/08/03/iconFont/">iconFont</a>
             
+            
+            <a class="next" rel="next" href="/2020/08/03/%E6%9D%82%E8%B0%88/">杂谈</a>
             
         </section>
 
