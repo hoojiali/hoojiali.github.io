@@ -12,7 +12,7 @@
 
 
 
-<title>iOS 指定构造器 | hoojiali&#39;s blog</title>
+<title>Git 常用命令 | hoojiali&#39;s blog</title>
 
 
 
@@ -173,7 +173,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">iOS 指定构造器</h1>
+            <h1 class="post-title">Git 常用命令</h1>
             
                 <div class="post-meta">
                     
@@ -182,7 +182,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">八月 3, 2020&nbsp;&nbsp;16:36:41</a>
+                        Date: <a href="#">九月 1, 2020&nbsp;&nbsp;16:28:12</a>
                         </span>
                     
                     
@@ -191,52 +191,25 @@
         </header>
 
         <div class="post-content">
-            <ul>
-<li><a target="_blank" rel="noopener" href="http://www.saitjr.com/ios/ios-ns_unavailable-ns_designated_initializer.html">http://www.saitjr.com/ios/ios-ns_unavailable-ns_designated_initializer.html</a></li>
-</ul>
-<p>当面对多个初始化方法时，外部调用者往往会手足无措，不知道哪一个才是正确的初始化方法，对此，苹果提供了两个关键字：<code>NS_UNAVAILABLE</code> 与 <code>NS_DESIGNATED_INITIALIZER</code> 来帮助我们约束定义方式，使得接口描述更加清晰。</p>
-<h4 id="NS-UNAVAILABLE"><a href="#NS-UNAVAILABLE" class="headerlink" title="NS_UNAVAILABLE"></a>NS_UNAVAILABLE</h4><p>对于多个构造方法，它可以指定一个基础的构造方法。其它快捷的构造方法都必须通过它来实现类的初始化。代码规范的一种。可以避免不必要的bug。良好的编程习惯</p>
-<p>对于这种能初始化全部必需变量的方法，一般可作为 designed initializer 。所以，可以明确的告诉外部调用者，无论调用哪种初始化方法，最终，都会调用 designed initializer：</p>
-<p>一个子类如果有自己的 designed initializer，则必须要实现父类的 designed initializer。比如一个继承自 NSObject 的 Person 类，就必须要重写 init 方法，并在 init 方法中，调用自己的 designed initializer，而不是调用 super 的初始化方法。如果未实现，可以看到编译警告：</p>
-<p>Method override for the designed initializer of the superclass ‘- init’ not found.</p>
-<p>除此之外，子类的 designed initializer 方法，在调用 super 时，也应该调用 super 的 designed initializer。也就是说，如果 CustomView 是 UIView 的子类，那么应该写作：</p>
-<p> 在定义初始化方法时，除了能够用 NS_DESIGNATED_INITIALIZER 标记以外，还可以使用更为强势的 NS_UNAVAILABLE 。和 NS_DESIGNATED_INITIALIZER 用于明确初始化方法方式不同， NS_UNAVAILABLE 的作用是，直接禁用其他初始化方法，简单粗暴。</p>
-<p> 假设，对于 User 类，如果没有 userID 就代表着用户无效，那么我们也没必要给 init 方法一个默认的 userID = 0 ，或者 userID = nil 。此时，需要告诉调用者，就只能通过 userID 来初始化，那么可以写作：</p>
+            <h1 id="撤销更改"><a href="#撤销更改" class="headerlink" title="撤销更改"></a>撤销更改</h1><h2 id="撤销commit"><a href="#撤销commit" class="headerlink" title="撤销commit"></a>撤销commit</h2><p>已经提交至当前分支的修改 git reset</p>
 <ul>
-<li>(instancetype)new NS_UNAVAILABLE;</li>
-</ul>
-<ul>
-<li><p>(instancetype)init NS_UNAVAILABLE; ///&lt; 直接标记 init 方法不可用</p>
+<li><p>hard模式</p>
+<blockquote>
+<p>reset –hard 会在重置 HEAD 和branch的同时，重置stage区和工作目录里的内容。<br>即工作区及暂存区所有更改都丢弃,与HEAD完全相同</p>
+</blockquote>
 </li>
-<li><p>(instancetype)initWithUserID:(NSNumber *)userID;</p>
-<p>方法一旦标记 NS_UNAVAILABLE ，那么在 IDE 自动补全时，就不会索引到该方法，并且如果强制调用该方法，编译器会报错（但并不代表着方法不能被调用，runtime 依然可以做到）。</p>
-<p>除了可以直接使用 NS_UNAVAILABLE 标记不可用以外，还有一些其他的方式：</p>
+<li><p>soft模式</p>
+<blockquote>
+<p>reset –soft 会在重置 HEAD 和 branch 时，保留工作目录和暂存区中的内容，并把重置 HEAD 所带来的新的差异放进暂存区。这种模式下会保存工作区的内容<br>ps: hard会清空工作区目录和暂存区,soft会保留工作区</p>
+</blockquote>
 </li>
-</ul>
-<p> // 作用与 NS_UNAVAILABLE 类似</p>
-<ul>
-<li><p>(id) init __unavailable;</p>
-</li>
-<li><p>(id) init <strong>attribute</strong>((unavailable));</p>
-</li>
-<li><p>(id) init UNAVAILABLE_ATTRIBUTE;</p>
-<p>// 在调用时给出提示</p>
-</li>
-<li><p>(id) init <strong>attribute</strong>((unavailable(“Must use initWithFoo: instead.”)));</p>
+<li><p>mixed模式</p>
+<blockquote>
+<p>默认模式, 保留工作区,清空暂存区(暂存区和版本库一致),所有差异均在工作目录</p>
+</blockquote>
 </li>
 </ul>
-<ul>
-<li><p>(instancetype)initWithUserID:(NSNumber *)userID {<br>  self = [super init];<br>  if (self) {</p>
-<pre><code>  if (userID.integerValue &lt;= 0) &#123;
-      // raise: 原因
-      // format: 具体描述
-      [NSException raise:@&quot;error parameter&quot; format:@&quot;user id can not = %@&quot;, userID];
-  &#125;
-  self.userID = userID;</code></pre>
-<p>  }<br>  return self;<br>}</p>
-<p>如果是可以给出默认值初始化方法，那么使用 NS_DESIGNATED_INITIALIZER 就可以。<br>如果是必须要用某参数来初始化的，可以使用 NS_UNAVAILABLE 。<br>如果需要在内部验证参数是否合法，如果不合法就一定不能成功的，也可以在实现的时候，验证并抛出异常。<br>具体选择使用哪一种方式，可以根据具体的情况来看。</p>
-</li>
-</ul>
+<h2 id="撤销add"><a href="#撤销add" class="headerlink" title="撤销add"></a>撤销add</h2><p>git restore –staged <file></p>
 
         </div>
 
@@ -274,10 +247,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/09/01/Git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Git 常用命令</a>
             
-            
-            <a class="next" rel="next" href="/2020/08/03/iconFont/">iconFont</a>
+            <a class="next" rel="next" href="/2020/08/03/iOS-%E6%8C%87%E5%AE%9A%E6%9E%84%E9%80%A0%E5%99%A8/">iOS 指定构造器</a>
             
         </section>
 
