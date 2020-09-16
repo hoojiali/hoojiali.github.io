@@ -12,7 +12,7 @@
 
 
 
-<title>Git 常用命令 | hoojiali&#39;s blog</title>
+<title>Group样式下TableView顶部留白问题 | hoojiali&#39;s blog</title>
 
 
 
@@ -107,73 +107,11 @@
             <div class="container">
     
     
-        <div class="post-toc">
-    <div class="tocbot-list">
-    </div>
-    <div class="tocbot-list-menu">
-        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
-        <a onclick="go_top()">Back to top</a>
-        <a onclick="go_bottom()">Go to bottom</a>
-    </div>
-</div>
-
-<script>
-    document.ready(
-        function () {
-            tocbot.init({
-                tocSelector: '.tocbot-list',
-                contentSelector: '.post-content',
-                headingSelector: 'h1, h2, h3, h4, h5',
-                collapseDepth: 1,
-                orderedList: false,
-                scrollSmooth: true,
-            })
-        }
-    )
-
-    function expand_toc() {
-        var b = document.querySelector(".tocbot-toc-expand");
-        tocbot.init({
-            tocSelector: '.tocbot-list',
-            contentSelector: '.post-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            collapseDepth: 6,
-            orderedList: false,
-            scrollSmooth: true,
-        });
-        b.setAttribute("onclick", "collapse_toc()");
-        b.innerHTML = "Collapse all"
-    }
-
-    function collapse_toc() {
-        var b = document.querySelector(".tocbot-toc-expand");
-        tocbot.init({
-            tocSelector: '.tocbot-list',
-            contentSelector: '.post-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            collapseDepth: 1,
-            orderedList: false,
-            scrollSmooth: true,
-        });
-        b.setAttribute("onclick", "expand_toc()");
-        b.innerHTML = "Expand all"
-    }
-
-    function go_top() {
-        window.scrollTo(0, 0);
-    }
-
-    function go_bottom() {
-        window.scrollTo(0, document.body.scrollHeight);
-    }
-
-</script>
-    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">Git 常用命令</h1>
+            <h1 class="post-title">Group样式下TableView顶部留白问题</h1>
             
                 <div class="post-meta">
                     
@@ -182,7 +120,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">九月 1, 2020&nbsp;&nbsp;16:28:12</a>
+                        Date: <a href="#">九月 16, 2020&nbsp;&nbsp;16:58:09</a>
                         </span>
                     
                     
@@ -191,25 +129,28 @@
         </header>
 
         <div class="post-content">
-            <h1 id="撤销更改"><a href="#撤销更改" class="headerlink" title="撤销更改"></a>撤销更改</h1><h2 id="撤销commit"><a href="#撤销commit" class="headerlink" title="撤销commit"></a>撤销commit</h2><p>已经提交至当前分支的修改 git reset</p>
-<ul>
-<li><p>hard模式</p>
+            <p><strong>问题说明:</strong><br>对于行高(<code>rowHeight</code>),section头尾高度(<code>sectionHeaderHeight</code> \ <code>sectionFooterHeight</code>)固定的table可以在初始化table的时候就设定其值.<br>初始化后设置table相关属性代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 禁用预估高度</span><br><span class="line">_table.estimatedRowHeight &#x3D; 0;</span><br><span class="line">_table.estimatedSectionHeaderHeight &#x3D; 0;</span><br><span class="line">_table.estimatedSectionFooterHeight &#x3D; 0;</span><br><span class="line">&#x2F;&#x2F; 实际高度</span><br><span class="line">_table.rowHeight &#x3D; 149.f;</span><br><span class="line">_table.sectionFooterHeight &#x3D; 10.f;</span><br><span class="line">_table.sectionHeaderHeight &#x3D; CGFLOAT_MIN;</span><br></pre></td></tr></table></figure>
+<p>此时在导航栏底部留有一高度为<code>35pt</code>的空白区域, 如下图:   </p>
+<p><img src="https://wx1.sbimg.cn/2020/09/16/GXHd8.jpg" alt="group样式下table留白问题"></p>
+<p><strong>解决方案:</strong>  </p>
 <blockquote>
-<p>reset –hard 会在重置 HEAD 和branch的同时，重置stage区和工作目录里的内容。<br>即工作区及暂存区所有更改都丢弃,与HEAD完全相同</p>
+<p>初始化时给table添加高度为<code>CGFLOAT_MIN</code>的头部视图(最优)</p>
 </blockquote>
-</li>
-<li><p>soft模式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CGRect rect &#x3D; CGRectMake(0, 0, 0, CGFLOAT_MIN);</span><br><span class="line">_table.tableHeaderView &#x3D; [[UIView alloc] initWithFrame:rect];</span><br></pre></td></tr></table></figure>
+
 <blockquote>
-<p>reset –soft 会在重置 HEAD 和 branch 时，保留工作目录和暂存区中的内容，并把重置 HEAD 所带来的新的差异放进暂存区。这种模式下会保存工作区的内容<br>ps: hard会清空工作区目录和暂存区,soft会保留工作区</p>
+<p>设置<code>table</code>的内容内边距 <code>contentInset</code></p>
 </blockquote>
-</li>
-<li><p>mixed模式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_table.contentInset &#x3D; UIEdgeInsetsMake(-35.f, 0, 0, 0);</span><br></pre></td></tr></table></figure>
+
 <blockquote>
-<p>默认模式, 保留工作区,清空暂存区(暂存区和版本库一致),所有差异均在工作目录</p>
+<p>实现返回<code>sectionHeaderHeight</code>的代理函数,并返回 <code>CGFLOAT_MIN</code></p>
 </blockquote>
-</li>
-</ul>
-<h2 id="撤销add"><a href="#撤销add" class="headerlink" title="撤销add"></a>撤销add</h2><p>git restore –staged <file></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tableView:heightForHeaderInSection: -&gt; CGFLOAT_MIN</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>原因猜测:</em></strong><br><code>UITableViewStyleGrouped</code> 样式的table会默认添加一个高度为<code>35pt</code>的表头视图(<code>tableHeaderView</code>),而<code>sectionHeaderHeight</code>仅对每个<code>Section</code>的头部视图起作用</p>
+<p><strong><em>验证:</em></strong> 在table添加到父视图后打印其 <code>tableHeaderView</code><br><strong><em>结论:</em></strong> <code>tableHeaderView</code>值为<code>nil</code></p>
 
         </div>
 
@@ -247,10 +188,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/09/16/Group%E6%A0%B7%E5%BC%8F%E4%B8%8BTableView%E9%A1%B6%E9%83%A8%E7%95%99%E7%99%BD%E9%97%AE%E9%A2%98/">Group样式下TableView顶部留白问题</a>
             
-            
-            <a class="next" rel="next" href="/2020/08/03/iOS-%E6%8C%87%E5%AE%9A%E6%9E%84%E9%80%A0%E5%99%A8/">iOS 指定构造器</a>
+            <a class="next" rel="next" href="/2020/09/01/Git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Git 常用命令</a>
             
         </section>
 
