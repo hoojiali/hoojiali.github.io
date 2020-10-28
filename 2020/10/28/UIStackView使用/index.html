@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="hoojiali">
+
+
+
+
+
+<title>UIStackView | hoojiali&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.0.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">胡佳丽 · Hoojiali</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">胡佳丽 · Hoojiali</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">UIStackView</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">hoojiali</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 28, 2020&nbsp;&nbsp;14:49:58</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><code>UIStackView : UIView</code><br><code>UIStackView</code>是<code>Apple</code>在<code>iOS9</code>引入的一个视图容器控件，可以很好地减轻手写或者<code>Xib</code>中托约束带来的繁琐工作。和传统容器视图相比，有如下特点：   </p>
+<ul>
+<li>类似ContainView,不会渲染到界面上</li>
+<li>子视图只能朝一个方向进行排布,要么水平要么垂直</li>
+<li>支持多层嵌套</li>
+<li>支持属性动画,不能滚动</li>
+</ul>
+<h2 id="api说明"><a href="#api说明" class="headerlink" title="api说明"></a>api说明</h2><h4 id="配置布局-Configuring-The-Layout"><a href="#配置布局-Configuring-The-Layout" class="headerlink" title="配置布局 (Configuring The Layout)"></a>配置布局 (Configuring The Layout)</h4><ul>
+<li><p><code>alignment</code>: <code>UIStackViewAlignment</code> 子视图的对齐方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 子视图在排列的垂直方向上填充容器</span><br><span class="line">UIStackViewAlignmentFill</span><br><span class="line">&#x2F;&#x2F; 子视图在排列方向上顶部对齐</span><br><span class="line">UIStackViewAlignmentTop</span><br><span class="line">&#x2F;&#x2F; 子视图在排列方向上居中对齐</span><br><span class="line">UIStackViewAlignmentCenter</span><br><span class="line">&#x2F;&#x2F; 子视图在排列方向上底部对</span><br><span class="line">UIStackViewAlignmentBottom</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>axis</code>: <code>UILayoutConstraintAxis</code> 子视图是水平排布还是垂直排布</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 水平排布</span><br><span class="line">UILayoutConstraintAxisHorizontal</span><br><span class="line">&#x2F;&#x2F; 垂直排布</span><br><span class="line">UILayoutConstraintAxisVertical</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>distribution</code>: <code>UIStackViewDistribution</code> 子视图的分布方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 子视图在排列方向上填满容器</span><br><span class="line">UIStackViewDistributionFill</span><br><span class="line">&#x2F;&#x2F; 子视图在排列方向上填满容器,且按相等尺寸分布</span><br><span class="line">UIStackViewDistributionFillEqually</span><br><span class="line">&#x2F;&#x2F; 子视图在排列方向上填满容器,且按照原始比例分布</span><br><span class="line">UIStackViewDistributionFillProportionally</span><br><span class="line">&#x2F;&#x2F; 排列方向上子视图等间距</span><br><span class="line">UIStackViewDistributionEqualSpacing</span><br><span class="line">&#x2F;&#x2F; 排列方向上子视图中心点之间的距离等间距</span><br><span class="line">UIStackViewDistributionEqualCentering</span><br></pre></td></tr></table></figure></li>
+<li><p><code>spacing</code>: <code>CGFloat</code> 子视图之间的间距</p>
+</li>
+</ul>
+<h4 id="子视图管理-Managing-Arranged-Subviews"><a href="#子视图管理-Managing-Arranged-Subviews" class="headerlink" title="子视图管理 (Managing Arranged Subviews)"></a>子视图管理 (Managing Arranged Subviews)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 添加</span><br><span class="line">- addArrangedSubview:</span><br><span class="line">&#x2F;&#x2F; 插入</span><br><span class="line">- insertArrangedSubview:atIndex:</span><br><span class="line">&#x2F;&#x2F; 删除</span><br><span class="line">- removeArrangedSubview:</span><br></pre></td></tr></table></figure>
+<p>补充: 对子视图设置隐藏也会相应的改变该容器视图</p>
+<h4 id="添加自定义空间-Adding-Space-Between-Items"><a href="#添加自定义空间-Adding-Space-Between-Items" class="headerlink" title="添加自定义空间 (Adding Space Between Items)"></a>添加自定义空间 (Adding Space Between Items)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Returns the custom spacing after the specified view.</span><br><span class="line">- customSpacingAfterView:</span><br><span class="line">&#x2F;&#x2F; Applies custom spacing after the specified view.</span><br><span class="line">- setCustomSpacing:afterView:</span><br><span class="line">&#x2F;&#x2F; The default spacing for subviews within a stack view.</span><br><span class="line">UIStackViewSpacingUseDefault</span><br><span class="line">&#x2F;&#x2F; The system-defined spacing to the neighboring view.</span><br><span class="line">UIStackViewSpacingUseSystem</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>hoojiali</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>工欲善其事 必先利其器</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/09/16/Group%E6%A0%B7%E5%BC%8F%E4%B8%8BTableView%E9%A1%B6%E9%83%A8%E7%95%99%E7%99%BD%E9%97%AE%E9%A2%98/">Group样式下TableView顶部留白问题</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© hoojiali | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
